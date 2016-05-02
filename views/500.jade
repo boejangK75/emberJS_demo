@@ -1,0 +1,29 @@
+doctype html
+html
+	head
+		style.
+			.alertbody{
+				color:black;
+			}
+			
+			.alertbody:before{
+				content:'ERROR 500';
+				width:3.5vmin;
+				border:.112vmin solid gray;
+				display:block;
+				width:100%;
+				background-color:rgb(174, 99, 99);
+			}
+				
+		script.
+			var Constants = {message: '#{errormark}'};
+			console.log(Constants)
+		title Error 500 - Internal Server Error
+	body(style='margin:0;padding:0;')
+		div(style='position:fixed;width:100%;height:100%;background-color:rgba(82, 82, 82, 0.12);')
+			div(style='display:table;height:100%;width: 100%;')
+				div(style='display:table-cell;vertical-align:middle;')
+					div.alertbody(style='background-color:white;text-align:center;border:1px solid silver;width:100vmin;margin:auto;box-shadow: .222vmin .222vmin .222vmin black;')
+						span#image500.image
+						p Oops! Something is wrong.
+						p !{errormark}

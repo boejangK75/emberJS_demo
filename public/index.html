@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Erick - Simple App Use NodeJs & EmberJs</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+
+		<script type="text/x-handlebars" data-template-name="application">
+			<div class="container">
+				<h2> Example application use : </h2>
+				<h4>
+					<table>
+						<tr align="left">
+							<th>Server Side</th>
+							<th>:</th>
+							<th>NodeJs</th>
+						</tr>
+						<tr align="left">
+							<th>Client Side</th>
+							<th>:</th>
+							<th>EmberJs</th>
+						</tr>
+						<tr align="left">
+							<th>Database</th>
+							<th>:</th>
+							<th>MongoDB</th>
+						</tr>
+					</table>
+				</h4>
+
+				<div class="navbar">
+					<div class="navbar-inner">
+						<ul class="nav">
+
+              					{{#view App.NavView}}
+               						 {{#linkTo "index"}}About EmberJs & Tutorial this App{{/linkTo}}
+              					{{/view}}
+
+              					{{#view App.NavView}}
+                					{{#linkTo "locations"}}Admin Announcement{{/linkTo}}
+              					{{/view}}
+
+						</ul>
+					</div>
+				</div>
+   				{{outlet}}
+			</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="index">
+			<p>
+				Actually my skills basicly are not in client side, but with this simple application I tried to identified :
+				<ul>
+					<li>1. What is EmberJs?</li>
+					<li>2. Can if use NodeJs as server side? Because now I work as NodeJs Programmer, so I feel happy if this EmberJs can use as client side of NodeJs</li>
+					<li>3. Why other Programmers use EmberJs than AngularJs or other client side frameworks ? 
+						   Can see on : <a href="http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/"><b><i>
+						   http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs</b></i></a>
+					</li>
+				</ul>
+				<br>
+				So I made this simple app which use NodeJs as server side, EmberJs as client side and MongoDB for save the Announcement data.
+				I made simple announcement system that have 2 sides :
+				<ul>
+					<li> Tab : <b> Admin Announcement </b> as Admin Management who can create, edit & delete Announcement that I save with MongoDB </li>
+					<li> Please open also : <a href="http://localhost:3000/clientView/"><b><i>http://localhost:3000/clientView</b></i></a> at least at 2 browsers, this page likes the other website that can receive Announcement when create/edit in Admin Announcement </li>
+				</ul>
+				<br>
+				<br>
+				
+			</p>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="locations/index">
+    		{{#if locationsPresent}}
+				<p>Total of announcements = {{content.length}}</p>
+				{{#if itemsSelected}}
+					<p><button {{action 'removeSelectedLocations'}}>Remove {{editCounter}} selected announcements</button></p>
+      		{{/if}}
+
+			<table class="table table-hover">
+				<tr>
+					<th>Selected</th>
+					<th>Name</th>
+					<th>Duration (minutes)</th>
+					<th>Priority</th>
+					<th>Value</th>
+					<th/>
+					<th/>
+				</tr>
+
+       			{{#each location in controller itemController="locationsEdit"}}
+					<tr {{bindAttr class="selected:warning"}}>
+						<td>{{view Ember.Checkbox checkedBinding="selected"}}</td>
+						<td>{{location.name}}</td>
+						<td>{{location.duration}}</td>
+						<td>{{location.priority}}</td>
+						<td>{{location.value}}</td>
+						<td>{{#linkTo "locations.edit" location}}<img src="images/edit-icon.png"/>{{/linkTo}}</td>
+						<td>
+							<a href="#" {{action removeItem location}}>
+								<img src="images/delete-icon.png" border="0"/>
+							</a>
+						</td>
+					</tr>
+       			{{/each}}
+			</table>
+
+    		{{else}}
+      			No Announcement Exist.
+    		{{/if}}
+
+			<p>{{#linkTo "locations.new"}}<img src="images/add-icon.png"/> New Announcement{{/linkTo}}</p>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="_locationForm">
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="name">Name</label>
+					<div class="controls">
+          				{{view Ember.TextField valueBinding="name" required=""}}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="duration">Duration (minutes)</label>
+					<div class="controls">
+          				{{view Ember.TextField valueBinding="duration" required="" type="number" min="1" max="60"}}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="priority">Priority</label>
+					<div class="controls">
+        				{{view Ember.Select contentBinding="App.priorities" valueBinding="priority"}}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="value">Value</label>
+					<div class="controls">
+         	 			{{view Ember.TextArea valueBinding="value" required=""}}
+					</div>
+				</div>
+			</form>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="locations/edit">
+    		{{#if controller.isNew}}
+				<h1>New Announcement</h1>
+    		{{else}}
+				<h1>Edit Announcement</h1>
+    		{{/if}}
+
+      		{{partial "locationForm"}}
+			<p>
+				<button {{action updateItem this}}>Update record</button>
+			</p>
+		</script>
+
+		<script src="js/jquery-1.9.1.js"></script>
+		<script src="js/handlebars-v1.3.0.js"></script>
+		<script src="js/ember-1.5.1.js"></script>
+		<script src="js/ember-data-1.0.0.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
